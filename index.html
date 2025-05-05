@@ -22,18 +22,43 @@
 
   <!-- 🧱 Addon Cards Section -->
   <main class="max-w-6xl mx-auto px-6 py-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-    
-    <!-- Example Addon Card -->
+
+    <!-- CHAT HUB Card -->
     <div class="bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all overflow-hidden">
       <img src="chathub.png" alt="CHAT HUB" class="w-full h-40 object-cover" />
       <div class="p-6">
         <h2 class="text-2xl font-bold text-blue-400 mb-2">CHAT HUB</h2>
         <p class="text-gray-300 mb-4">Chat system with ranks, filters, and time formatting.</p>
-        <a href="packs/CHAT HUB.mcpack" download class="inline-block px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 font-semibold transition">⬇ Download</a>
+        <a href="packs/CHAT HUB.mcpack" download class="inline-block px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 font-semibold transition mb-4">⬇ Download</a>
+
+        <!-- ⭐ Review Section -->
+        <div class="mt-6">
+          <h3 class="text-xl font-semibold mb-2">Reviews</h3>
+          <div id="averageRating" class="mb-2 text-yellow-400 font-bold"></div>
+
+          <form id="reviewForm" class="space-y-3">
+            <input id="name" type="text" placeholder="Your name" class="w-full bg-gray-700 px-4 py-2 rounded-lg text-white" required />
+            <textarea id="reviewText" placeholder="Your review..." class="w-full bg-gray-700 px-4 py-2 rounded-lg text-white" required></textarea>
+            
+            <div class="flex items-center gap-1">
+              <span class="mr-2 text-sm">Rating:</span>
+              <div id="starRating" class="flex gap-1 cursor-pointer text-yellow-400 text-xl">
+                <span data-star="1">★</span>
+                <span data-star="2">★</span>
+                <span data-star="3">★</span>
+                <span data-star="4">★</span>
+                <span data-star="5">★</span>
+              </div>
+            </div>
+
+            <input type="hidden" id="selectedRating" value="0" />
+            <button type="submit" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg font-semibold">Submit</button>
+          </form>
+
+          <div id="reviews" class="mt-4 space-y-4"></div>
+        </div>
       </div>
     </div>
-
-    <!-- Duplicate this card block for more addons -->
 
   </main>
 
@@ -41,6 +66,75 @@
   <footer class="text-center text-gray-500 py-8 text-sm border-t border-gray-700">
     &copy; 2025 M9SSE | Powered by GitHub Pages | <a href="https://github.com/m9sse" class="underline hover:text-white">GitHub</a>
   </footer>
+
+  <!-- ⭐ Review Script -->
+  <script>
+    const reviewForm = document.getElementById('reviewForm');
+    const starContainer = document.getElementById('starRating');
+    const ratingInput = document.getElementById('selectedRating');
+    const reviewsEl = document.getElementById('reviews');
+    const avgEl = document.getElementById('averageRating');
+
+    let currentRating = 0;
+    const storageKey = 'reviews_chathub';
+
+    starContainer.addEventListener('click', (e) => {
+      if (e.target.dataset.star) {
+        currentRating = Number(e.target.dataset.star);
+        ratingInput.value = currentRating;
+        updateStars(currentRating);
+      }
+    });
+
+    function updateStars(rating) {
+      [...starContainer.children].forEach((star, i) => {
+        star.style.color = i < rating ? 'gold' : '#444';
+      });
+    }
+
+    function loadReviews() {
+      const reviews = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      reviewsEl.innerHTML = '';
+      let total = 0;
+
+      reviews.forEach(r => {
+        total += r.rating;
+        const div = document.createElement('div');
+        div.className = "bg-gray-700 p-3 rounded-lg";
+        div.innerHTML = `
+          <div class="flex items-center justify-between">
+            <strong>${r.name}</strong>
+            <div class="text-yellow-400">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+          </div>
+          <p class="text-gray-300">${r.text}</p>
+        `;
+        reviewsEl.appendChild(div);
+      });
+
+      const avg = (reviews.length > 0) ? (total / reviews.length).toFixed(1) : '0';
+      avgEl.innerHTML = `Average Rating: <span class="text-yellow-300">${avg} / 5</span> (${reviews.length} reviews)`;
+    }
+
+    reviewForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const text = document.getElementById('reviewText').value.trim();
+      const rating = Number(ratingInput.value);
+
+      if (!name || !text || rating < 1 || rating > 5) return;
+
+      const newReview = { name, text, rating };
+      const reviews = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      reviews.push(newReview);
+      localStorage.setItem(storageKey, JSON.stringify(reviews));
+      reviewForm.reset();
+      currentRating = 0;
+      updateStars(0);
+      loadReviews();
+    });
+
+    loadReviews();
+  </script>
 
 </body>
 </html>
