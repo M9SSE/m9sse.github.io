@@ -1,5 +1,5 @@
-<body class="bg-black text-white font-sans relative">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,7 +7,19 @@
   <script src="https://cdn.tailwindcss.com"></script> <!-- This is critical -->
   <link rel="icon" href="favicon.ico" />
 </head>
+<body class="bg-black text-white font-sans relative">
 
+  <!-- 🔽 Mobile Menu -->
+  <header class="absolute top-4 right-4 z-50">
+    <button id="menuToggle" class="text-white text-3xl focus:outline-none">
+      ☰
+    </button>
+    <nav id="dropdownMenu" class="hidden bg-gray-900 text-white rounded-lg mt-2 py-2 shadow-lg w-40 absolute right-0">
+      <a href="#home" class="block px-4 py-2 hover:bg-gray-700">Home</a>
+      <a href="#addons" class="block px-4 py-2 hover:bg-gray-700">Addons</a>
+      <a href="#reviews" class="block px-4 py-2 hover:bg-gray-700">Reviews</a>
+    </nav>
+  </header>
 
   <!-- 🌌 Hero Section -->
   <section id="home" class="relative h-[80vh] flex items-center justify-center text-center overflow-hidden">
@@ -22,7 +34,6 @@
 
   <!-- 🧱 Addon Cards Section -->
   <main id="addons" class="max-w-6xl mx-auto px-6 py-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-    <!-- CHAT HUB Card -->
     <div class="bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all overflow-hidden">
       <img src="chathub.png" alt="CHAT HUB" class="w-full h-40 object-cover" />
       <div class="p-6">
@@ -33,20 +44,24 @@
     </div>
   </main>
 
-  <!-- 🌟 Reviews Section -->
-  <section id="reviews" class="bg-gray-900 py-16 border-t border-gray-700">
-    <div class="max-w-4xl mx-auto px-4 text-center">
-      <h2 class="text-3xl font-bold text-green-400 mb-8">What People Say</h2>
-      <div id="reviewCarousel" class="relative h-60">
-        <!-- Review cards injected here -->
-      </div>
+  <!-- ⭐ Reviews Section -->
+  <section id="reviews" class="relative py-16 bg-gray-900">
+    <h2 class="text-3xl font-bold text-center text-yellow-400 mb-6">What People Think</h2>
 
-      <form id="reviewForm" class="mt-10 space-y-4">
-        <input id="name" type="text" placeholder="Your name" class="w-full bg-gray-800 px-4 py-2 rounded-lg text-white" required />
-        <textarea id="reviewText" placeholder="Your review..." class="w-full bg-gray-800 px-4 py-2 rounded-lg text-white" required></textarea>
-        <div class="flex justify-center items-center gap-2 text-yellow-400 text-xl">
-          <span>Rating:</span>
-          <div id="starRating" class="flex gap-1 cursor-pointer">
+    <!-- Floating Review Cards -->
+    <div id="reviewsContainer" class="max-w-6xl mx-auto grid md:grid-cols-3 sm:grid-cols-2 gap-4 px-4 relative z-10 mb-8">
+      <!-- JS inserts reviews here -->
+    </div>
+
+    <!-- Review Submission Form -->
+    <div class="max-w-xl mx-auto bg-gray-800 p-6 rounded-xl shadow-xl z-10 relative">
+      <h3 class="text-xl font-semibold mb-4 text-white text-center">Leave Your Review</h3>
+      <form id="reviewForm" class="space-y-4">
+        <input id="name" type="text" placeholder="Your name" class="w-full bg-gray-700 px-4 py-2 rounded text-white" required />
+        <textarea id="reviewText" placeholder="Write your thoughts..." class="w-full bg-gray-700 px-4 py-2 rounded text-white" required></textarea>
+        <div class="flex items-center gap-2 text-yellow-400 justify-center">
+          <span class="text-sm">Your Rating:</span>
+          <div id="starRating" class="flex gap-1 text-xl cursor-pointer">
             <span data-star="1">★</span>
             <span data-star="2">★</span>
             <span data-star="3">★</span>
@@ -55,32 +70,33 @@
           </div>
         </div>
         <input type="hidden" id="selectedRating" value="0" />
-        <button type="submit" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg font-semibold">Submit Review</button>
+        <button type="submit" class="w-full bg-green-600 hover:bg-green-700 py-2 rounded text-white font-bold">Submit</button>
       </form>
     </div>
   </section>
-
-  <!-- 📜 Sidebar Navigation -->
-  <aside class="fixed right-4 top-1/2 transform -translate-y-1/2 z-50 bg-gray-800 bg-opacity-80 p-3 rounded-xl shadow-xl space-y-4">
-    <button onclick="scrollToSection('home')" class="text-white hover:text-green-400">🏠 Home</button>
-    <button onclick="scrollToSection('addons')" class="text-white hover:text-green-400">🧱 Addons</button>
-    <button onclick="scrollToSection('reviews')" class="text-white hover:text-green-400">⭐ Reviews</button>
-  </aside>
 
   <!-- 🔻 Footer -->
   <footer class="text-center text-gray-500 py-8 text-sm border-t border-gray-700">
     &copy; 2025 M9SSE | Powered by GitHub Pages | <a href="https://github.com/m9sse" class="underline hover:text-white">GitHub</a>
   </footer>
 
-  <!-- ⭐ Review Script -->
+  <!-- JavaScript -->
   <script>
+    // 🌟 Toggle menu
+    const menuToggle = document.getElementById('menuToggle');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    menuToggle.addEventListener('click', () => {
+      dropdownMenu.classList.toggle('hidden');
+    });
+
+    // ⭐ Review functionality
     const reviewForm = document.getElementById('reviewForm');
     const starContainer = document.getElementById('starRating');
     const ratingInput = document.getElementById('selectedRating');
-    const reviewCarousel = document.getElementById('reviewCarousel');
+    const reviewsContainer = document.getElementById('reviewsContainer');
 
     let currentRating = 0;
-    const storageKey = 'site_reviews';
+    const storageKey = 'm9sse_site_reviews';
 
     starContainer.addEventListener('click', (e) => {
       if (e.target.dataset.star) {
@@ -92,40 +108,32 @@
 
     function updateStars(rating) {
       [...starContainer.children].forEach((star, i) => {
-        star.style.color = i < rating ? 'gold' : '#555';
+        star.style.color = i < rating ? 'gold' : '#444';
       });
     }
 
-    function displayCarousel() {
+    function loadReviews() {
       const reviews = JSON.parse(localStorage.getItem(storageKey) || '[]');
-      if (reviews.length === 0) return;
-
-      let index = 0;
-
-      function showReview() {
-        const r = reviews[index];
-        reviewCarousel.innerHTML = `
-          <div class="bg-gray-800 p-6 rounded-xl shadow-md text-left max-w-xl mx-auto transition duration-500">
-            <div class="flex justify-between items-center mb-2">
-              <strong class="text-lg">${r.name}</strong>
-              <div class="text-yellow-400">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
-            </div>
-            <p class="text-gray-300 text-sm">${r.text}</p>
+      reviewsContainer.innerHTML = '';
+      reviews.forEach(r => {
+        const card = document.createElement('div');
+        card.className = 'bg-gray-800 p-4 rounded-xl shadow-md text-white';
+        card.innerHTML = `
+          <div class="flex items-center justify-between mb-2">
+            <strong>${r.name}</strong>
+            <div class="text-yellow-400">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
           </div>
+          <p class="text-sm text-gray-300">${r.text}</p>
         `;
-        index = (index + 1) % reviews.length;
-      }
-
-      showReview();
-      setInterval(showReview, 5000);
+        reviewsContainer.appendChild(card);
+      });
     }
 
-    reviewForm.addEventListener('submit', e => {
+    reviewForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const name = document.getElementById('name').value.trim();
       const text = document.getElementById('reviewText').value.trim();
       const rating = Number(ratingInput.value);
-
       if (!name || !text || rating < 1 || rating > 5) return;
 
       const newReview = { name, text, rating };
@@ -135,13 +143,11 @@
       reviewForm.reset();
       currentRating = 0;
       updateStars(0);
-      displayCarousel(); // Refresh
+      loadReviews();
     });
 
-    function scrollToSection(id) {
-      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-    }
-
-    displayCarousel();
+    // On page load
+    loadReviews();
   </script>
 </body>
+</html>
