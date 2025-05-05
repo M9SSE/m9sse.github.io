@@ -5,29 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>M9SSE | Minecraft Addons</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="favicon.ico" />
 </head>
-<body class="bg-gray-900 text-white font-sans">
+<body class="bg-black text-white font-sans">
 
-  <header class="text-center py-8">
-    <h1 class="text-4xl font-bold">M9SSE's Minecraft Addons</h1>
-    <p class="text-gray-400 mt-2">Download and explore custom Bedrock packs</p>
-  </header>
+  <!-- 🌌 Hero Section -->
+  <section class="relative h-[80vh] flex items-center justify-center text-center overflow-hidden">
+    <img src="banner.jpg" alt="Background Banner" class="absolute inset-0 w-full h-full object-cover opacity-40" />
+    <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+    <div class="z-10 px-6">
+      <img src="logo.png" alt="M9SSE Logo" class="w-32 mx-auto mb-4 rounded-full border-4 border-white shadow-xl" />
+      <h1 class="text-5xl font-bold text-green-400 mb-4">M9SSE ADDONS</h1>
+      <p class="text-gray-300 text-lg max-w-2xl mx-auto">High-quality Minecraft Bedrock addons built for performance, creativity, and fun.</p>
+    </div>
+  </section>
 
-  <main class="max-w-4xl mx-auto p-4 grid gap-6">
+  <!-- 🧱 Addon Cards Section -->
+  <main class="max-w-6xl mx-auto px-6 py-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
     
-    <!-- ADDON CARD TEMPLATE -->
-    <div class="bg-gray-800 rounded-2xl p-6 shadow-lg">
-      <h2 class="text-2xl font-bold text-blue-400">CHAT HUB</h2>
-      <p class="text-gray-300 mt-2">A powerful Bedrock chat addon with ranks, prefixes, filters, and more.</p>
-      <a href="packs/CHAT_HUB.mcpack" download class="inline-block mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded text-white font-semibold transition">⬇ Download .mcpack</a>
+    <!-- Example Addon Card -->
+    <div class="bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all overflow-hidden">
+      <img src="chathub.png" alt="CHAT HUB" class="w-full h-40 object-cover" />
+      <div class="p-6">
+        <h2 class="text-2xl font-bold text-blue-400 mb-2">CHAT HUB</h2>
+        <p class="text-gray-300 mb-4">Chat system with ranks, filters, and time formatting.</p>
+        <a href="packs/CHAT_HUB.mcpack" download class="inline-block px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 font-semibold transition">⬇ Download</a>
+      </div>
     </div>
 
-    <!-- DUPLICATE THE ABOVE DIV FOR MORE ADDONS -->
+    <!-- Duplicate this card block for more addons -->
 
   </main>
 
-  <footer class="text-center text-gray-500 py-6">
-    &copy; 2025 M9SSE. Built for Minecraft Bedrock players.
+  <!-- 🔻 Footer -->
+  <footer class="text-center text-gray-500 py-8 text-sm border-t border-gray-700">
+    &copy; 2025 M9SSE | Powered by GitHub Pages | <a href="https://github.com/m9sse" class="underline hover:text-white">GitHub</a>
   </footer>
 
 </body>
